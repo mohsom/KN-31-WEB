@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота 5 - Express.js</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Лабораторна робота 5 - Express.js</h1>
+            <p class="subtitle">Скальський Володимир</p>
+        </header>
+
+        <main>
+            <section class="navigation">
+                <h2>Навігація</h2>
+                <div class="links">
+                    <a href="/time" class="btn">Поточний час</a>
+                    <a href="/time/json" class="btn" id="jsonLink">Поточний час (JSON)</a>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2>Встановити власну дату та час</h2>
+                <form id="timeForm" class="time-form">
+                    <div class="form-group">
+                        <label for="date">Дата:</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Час:</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                    <button type="submit" class="btn btn-submit">Зберегти</button>
+                </form>
+                <div id="message" class="message"></div>
+            </section>
+
+            <section class="info">
+                <h2>Інформація</h2>
+                <p>Цей сервер використовує Express.js для обробки маршрутів та статичних файлів.</p>
+                <ul>
+                    <li><strong>/</strong> - головна сторінка</li>
+                    <li><strong>/time</strong> - поточна дата та час</li>
+                    <li><strong>/time/json</strong> - дата та час у форматі JSON</li>
+                    <li><strong>/settime</strong> - збереження власної дати та часу</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
