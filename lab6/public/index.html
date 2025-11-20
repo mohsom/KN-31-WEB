@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List - REST API</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 To-Do List</h1>
+            <p class="subtitle">Лабораторна робота 6 - Скальський Володимир</p>
+        </header>
+
+        <main>
+            <section class="add-task-section">
+                <h2>Додати нове завдання</h2>
+                <form id="taskForm" class="task-form">
+                    <div class="form-group">
+                        <label for="title">Назва:</label>
+                        <input type="text" id="title" name="title" required placeholder="Введіть назву завдання">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Опис:</label>
+                        <textarea id="description" name="description" required placeholder="Введіть опис завдання" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Додати завдання</button>
+                </form>
+                <div id="message" class="message"></div>
+            </section>
+
+            <section class="tasks-section">
+                <h2>Список завдань</h2>
+                <div class="filter-buttons">
+                    <button class="btn btn-filter active" data-filter="all">Всі</button>
+                    <button class="btn btn-filter" data-filter="active">Активні</button>
+                    <button class="btn btn-filter" data-filter="done">Виконані</button>
+                </div>
+                <div id="tasksList" class="tasks-list">
+                    <p class="loading">Завантаження...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

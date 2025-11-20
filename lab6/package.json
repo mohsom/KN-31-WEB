@@ -1,7 +1,7 @@
 {
-    "name": "lab5-express-server",
+    "name": "lab6-todo-api",
     "version": "1.0.0",
-    "description": "Лабораторна робота 5 - Express.js сервер",
+    "description": "Лабораторна робота 6 - REST API для To-Do List",
     "main": "app.js",
     "scripts": {
         "start": "node app.js",
@@ -9,8 +9,9 @@
     },
     "keywords": [
         "express",
-        "nodejs",
-        "lab5"
+        "rest-api",
+        "todo",
+        "lab6"
     ],
     "author": "Скальський Володимир",
     "license": "ISC",
