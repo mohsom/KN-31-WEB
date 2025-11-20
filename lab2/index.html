@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота 2 - Rick and Morty API</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .subtitle {
+            color: #a0a0a0;
+            font-size: 16px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input[type="number"] {
+            padding: 12px 15px;
+            border: 2px solid #00d4ff;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        input[type="number"]::placeholder {
+            color: #a0a0a0;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-update {
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-update:hover:not(:disabled) {
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-search:hover:not(:disabled) {
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .loader {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loader.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #00d4ff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            display: none;
+            background: rgba(255, 107, 107, 0.2);
+            border: 2px solid #ff6b6b;
+            color: #ffcccc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .error-message.active {
+            display: block;
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(0, 255, 136, 0.2);
+            border: 2px solid #00ff88;
+            color: #ccffeb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .character-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .character-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .character-image {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #00d4ff;
+        }
+
+        .character-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        .character-info {
+            margin-bottom: 8px;
+            color: #e0e0e0;
+        }
+
+        .character-info strong {
+            color: #00ff88;
+        }
+
+        .character-detail {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            max-width: 600px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .character-detail.active {
+            display: block;
+        }
+
+        .character-detail-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .character-detail-image {
+            width: 300px;
+            border-radius: 15px;
+            border: 3px solid #00d4ff;
+        }
+
+        .character-detail-info {
+            width: 100%;
+        }
+
+        .character-detail-info h2 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .info-row {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .info-row strong {
+            color: #00ff88;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .button-group,
+            .search-group {
+                flex-direction: column;
+            }
+
+            button,
+            input[type="number"] {
+                width: 100%;
+            }
+
+            .characters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .character-detail-image {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Rick and Morty API</h1>
+            <p class="subtitle">Лабораторна робота 2 - Скальський Володимир</p>
+        </header>
+
+        <div class="controls">
+            <div class="button-group">
+                <button id="loadCharactersBtn" onclick="loadCharacters()">Отримати персонажів (Axios)</button>
+                <button id="updateCharactersBtn" class="btn-update" onclick="loadMoreCharacters()" style="display: none;">Оновити персонажів (Axios)</button>
+            </div>
+            <div class="search-group">
+                <input type="number" id="characterIdInput" placeholder="Введіть ID персонажа (1-826)" min="1" max="826">
+                <button class="btn-search" onclick="searchCharacter()">Пошук персонажа</button>
+            </div>
+        </div>
+
+        <div class="loader" id="loader">
+            <div class="spinner"></div>
+            <p style="margin-top: 10px;">Завантаження...</p>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <div class="characters-grid" id="charactersGrid"></div>
+
+        <div class="character-detail" id="characterDetail">
+            <div class="character-detail-content" id="characterDetailContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let nextPageUrl = null;
+
+        // Функція для показу/приховування повідомлень
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('active');
+            setTimeout(() => {
+                errorDiv.classList.remove('active');
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.classList.add('active');
+            setTimeout(() => {
+                successDiv.classList.remove('active');
+            }, 3000);
+        }
+
+        function showLoader() {
+            document.getElementById('loader').classList.add('active');
+        }
+
+        function hideLoader() {
+            document.getElementById('loader').classList.remove('active');
+        }
+
+        // Отримання перших 20 персонажів
+        async function loadCharacters() {
+            showLoader();
+            hideError();
+            hideCharacterDetail();
+
+            try {
+                const response = await axios.get('https://rickandmortyapi.com/api/character');
+                
+                if (response.data && response.data.results) {
+                    displayCharacters(response.data.results);
+                    nextPageUrl = response.data.info.next;
+                    
+                    // Показуємо кнопку "Оновити персонажів"
+                    document.getElementById('updateCharactersBtn').style.display = 'block';
+                    document.getElementById('loadCharactersBtn').disabled = true;
+                    
+                    showSuccess(`Завантажено ${response.data.results.length} персонажів!`);
+                }
+            } catch (error) {
+                showError('Помилка при завантаженні персонажів: ' + (error.message || 'Невідома помилка'));
+            } finally {
+                hideLoader();
+            }
+        }
+
+        // Завантаження наступної сторінки персонажів
+        async function loadMoreCharacters() {
+            if (!nextPageUrl) {
+                showError('Більше персонажів немає');
+                return;
+            }
+
+            showLoader();
+            hideError();
+            hideCharacterDetail();
+
+            try {
+                const response = await axios.get(nextPageUrl);
+                
+                if (response.data && response.data.results) {
+                    displayCharacters(response.data.results, true);
+                    nextPageUrl = response.data.info.next;
+                    
+                    if (!nextPageUrl) {
+                        document.getElementById('updateCharactersBtn').disabled = true;
+                        showError('Це остання сторінка персонажів');
+                    } else {
+                        showSuccess(`Завантажено ще ${response.data.results.length} персонажів!`);
+                    }
+                }
+            } catch (error) {
+                showError('Помилка при завантаженні персонажів: ' + (error.message || 'Невідома помилка'));
+            } finally {
+                hideLoader();
+            }
+        }
+
+        // Відображення персонажів
+        function displayCharacters(characters, append = false) {
+            const grid = document.getElementById('charactersGrid');
+            
+            if (!append) {
+                grid.innerHTML = '';
+            }
+
+            characters.forEach(character => {
+                const card = document.createElement('div');
+                card.className = 'character-card';
+                card.innerHTML = `
+                    <img src="${character.image}" alt="${character.name}" class="character-image">
+                    <div class="character-name">${character.name}</div>
+                    <div class="character-info"><strong>Статус:</strong> ${character.status}</div>
+                    <div class="character-info"><strong>Вид:</strong> ${character.species}</div>
+                    <div class="character-info"><strong>Стать:</strong> ${character.gender}</div>
+                    <div class="character-info"><strong>ID:</strong> ${character.id}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Пошук персонажа за ID
+        async function searchCharacter() {
+            const input = document.getElementById('characterIdInput');
+            const characterId = input.value.trim();
+
+            // Перевірка на порожнє поле
+            if (!characterId) {
+                showError('Будь ласка, введіть ID персонажа');
+                return;
+            }
+
+            const id = parseInt(characterId);
+
+            // Перевірка на коректність ID
+            if (isNaN(id) || id < 1 || id > 826) {
+                showError('ID повинен бути числом від 1 до 826');
+                return;
+            }
+
+            showLoader();
+            hideError();
+            hideCharacters();
+
+            try {
+                const response = await axios.get(`https://rickandmortyapi.com/api/character/${id}`);
+                
+                if (response.data) {
+                    displayCharacterDetail(response.data);
+                    showSuccess('Персонаж знайдено!');
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 404) {
+                    showError('Персонаж з таким ID не знайдено');
+                } else {
+                    showError('Помилка при пошуку персонажа: ' + (error.message || 'Невідома помилка'));
+                }
+            } finally {
+                hideLoader();
+            }
+        }
+
+        // Відображення деталей персонажа
+        function displayCharacterDetail(character) {
+            const detailDiv = document.getElementById('characterDetail');
+            const contentDiv = document.getElementById('characterDetailContent');
+            
+            contentDiv.innerHTML = `
+                <img src="${character.image}" alt="${character.name}" class="character-detail-image">
+                <div class="character-detail-info">
+                    <h2>${character.name}</h2>
+                    <div class="info-row"><strong>ID:</strong> ${character.id}</div>
+                    <div class="info-row"><strong>Статус:</strong> ${character.status}</div>
+                    <div class="info-row"><strong>Вид:</strong> ${character.species}</div>
+                    <div class="info-row"><strong>Тип:</strong> ${character.type || 'Невідомо'}</div>
+                    <div class="info-row"><strong>Стать:</strong> ${character.gender}</div>
+                    <div class="info-row"><strong>Походження:</strong> ${character.origin.name}</div>
+                    <div class="info-row"><strong>Місцезнаходження:</strong> ${character.location.name}</div>
+                    <div class="info-row"><strong>Кількість епізодів:</strong> ${character.episode.length}</div>
+                    <div class="info-row"><strong>Створено:</strong> ${new Date(character.created).toLocaleDateString('uk-UA')}</div>
+                </div>
+            `;
+            
+            detailDiv.classList.add('active');
+        }
+
+        // Допоміжні функції для приховування елементів
+        function hideError() {
+            document.getElementById('errorMessage').classList.remove('active');
+        }
+
+        function hideCharacterDetail() {
+            document.getElementById('characterDetail').classList.remove('active');
+        }
+
+        function hideCharacters() {
+            document.getElementById('charactersGrid').innerHTML = '';
+        }
+
+        // Обробка натискання Enter в полі вводу
+        document.getElementById('characterIdInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchCharacter();
+            }
+        });
+    </script>
+</body>
+</html>
+
