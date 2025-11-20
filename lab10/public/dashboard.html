@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управління - To-Do App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="dashboard-header">
+            <div>
+                <h1>📋 To-Do App</h1>
+                <p class="welcome-text">Вітаємо, <span id="userName"></span>!</p>
+            </div>
+            <button id="logoutBtn" class="btn btn-danger">Вихід</button>
+        </header>
+
+        <main>
+            <section class="stats-section">
+                <h2>Статистика</h2>
+                <div class="chart-container">
+                    <canvas id="statsChart"></canvas>
+                </div>
+            </section>
+
+            <section class="tasks-section">
+                <h2>Мої завдання</h2>
+                
+                <div class="filter-buttons">
+                    <button class="btn btn-filter active" data-filter="all">Всі</button>
+                    <button class="btn btn-filter" data-filter="active">Невиконані</button>
+                    <button class="btn btn-filter" data-filter="completed">Виконані</button>
+                </div>
+
+                <form id="taskForm" class="task-form">
+                    <div class="form-row">
+                        <input type="text" id="taskTitle" name="title" required placeholder="Назва завдання" maxlength="100">
+                        <select id="taskPriority" name="priority">
+                            <option value="низька">Низька</option>
+                            <option value="середня" selected>Середня</option>
+                            <option value="висока">Висока</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Додати</button>
+                    </div>
+                </form>
+
+                <div id="tasksList" class="tasks-list">
+                    <p class="loading">Завантаження...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>
+
