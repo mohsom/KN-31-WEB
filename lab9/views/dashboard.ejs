@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управління - Лабораторна робота 9</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="dashboard-card">
+            <h1>Панель управління</h1>
+            <p class="subtitle">Лабораторна робота 9 - Скальський Володимир</p>
+
+            <!-- Flash повідомлення -->
+            <% if (typeof success !== 'undefined' && success.length > 0) { %>
+                <div class="alert alert-success">
+                    <%= success[0] %>
+                </div>
+            <% } %>
+
+            <div class="welcome-section">
+                <h2>Вітаємо, <span class="user-name"><%= user.fullName %></span>!</h2>
+                <p class="user-info">Email: <%= user.email %></p>
+                <p class="user-info">Дата реєстрації: <%= new Date(user.createdAt).toLocaleDateString('uk-UA') %></p>
+            </div>
+
+            <div class="dashboard-actions">
+                <a href="/logout" class="btn btn-danger">Вихід</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація - Лабораторна робота 9</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-card">
+            <h1>Реєстрація</h1>
+            <p class="subtitle">Лабораторна робота 9 - Скальський Володимир</p>
+
+            <!-- Flash повідомлення -->
+            <% if (typeof success !== 'undefined' && success.length > 0) { %>
+                <div class="alert alert-success">
+                    <%= success[0] %>
+                </div>
+            <% } %>
+
+            <% if (typeof error !== 'undefined' && error.length > 0) { %>
+                <div class="alert alert-error">
+                    <%= error[0] %>
+                </div>
+            <% } %>
+
+            <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+                <div class="alert alert-error">
+                    <ul class="error-list">
+                        <% errors.forEach(err => { %>
+                            <li><%= err.msg %></li>
+                        <% }); %>
+                    </ul>
+                </div>
+            <% } %>
+
+            <form method="POST" action="/register" class="auth-form">
+                <div class="form-group">
+                    <label for="fullName">ПІБ:</label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        name="fullName" 
+                        required 
+                        placeholder="Введіть ваше повне ім'я"
+                        value="<%= typeof old !== 'undefined' && old.fullName ? old.fullName : '' %>"
+                        class="<%= typeof errors !== 'undefined' && errors.some(e => e.path === 'fullName') ? 'error' : '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required 
+                        placeholder="example@email.com"
+                        value="<%= typeof old !== 'undefined' && old.email ? old.email : '' %>"
+                        class="<%= typeof errors !== 'undefined' && errors.some(e => e.path === 'email') ? 'error' : '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Пароль:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required 
+                        placeholder="Мінімум 6 символів"
+                        class="<%= typeof errors !== 'undefined' && errors.some(e => e.path === 'password') ? 'error' : '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Підтвердження пароля:</label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        required 
+                        placeholder="Повторіть пароль"
+                        class="<%= typeof errors !== 'undefined' && errors.some(e => e.path === 'confirmPassword') ? 'error' : '' %>">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Зареєструватися</button>
+            </form>
+
+            <div class="auth-links">
+                <p>Вже маєте акаунт? <a href="/login">Увійти</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

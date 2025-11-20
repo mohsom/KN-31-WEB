@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вхід - Лабораторна робота 9</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-card">
+            <h1>Вхід</h1>
+            <p class="subtitle">Лабораторна робота 9 - Скальський Володимир</p>
+
+            <!-- Flash повідомлення -->
+            <% if (typeof success !== 'undefined' && success.length > 0) { %>
+                <div class="alert alert-success">
+                    <%= success[0] %>
+                </div>
+            <% } %>
+
+            <% if (typeof error !== 'undefined' && error.length > 0) { %>
+                <div class="alert alert-error">
+                    <%= error[0] %>
+                </div>
+            <% } %>
+
+            <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+                <div class="alert alert-error">
+                    <ul class="error-list">
+                        <% errors.forEach(err => { %>
+                            <li><%= err.msg %></li>
+                        <% }); %>
+                    </ul>
+                </div>
+            <% } %>
+
+            <form method="POST" action="/login" class="auth-form">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required 
+                        placeholder="example@email.com"
+                        value="<%= typeof old !== 'undefined' && old.email ? old.email : '' %>"
+                        class="<%= typeof errors !== 'undefined' && errors.some(e => e.path === 'email') ? 'error' : '' %>">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Пароль:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required 
+                        placeholder="Введіть пароль"
+                        class="<%= typeof errors !== 'undefined' && errors.some(e => e.path === 'password') ? 'error' : '' %>">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Увійти</button>
+            </form>
+
+            <div class="auth-links">
+                <p>Немає акаунта? <a href="/register">Зареєструватися</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
