@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Louvre",
+    "country": "France"
+  },
+  {
+    "id": 2,
+    "name": "British Museum",
+    "country": "United Kingdom"
+  },
+  {
+    "id": 3,
+    "name": "Metropolitan Museum of Art",
+    "country": "United States"
+  },
+  {
+    "id": 4,
+    "name": "Hermitage Museum",
+    "country": "Russia"
+  },
+  {
+    "id": 5,
+    "name": "Uffizi Gallery",
+    "country": "Italy"
+  },
+  {
+    "id": 6,
+    "name": "Львівський Музей",
+    "country": "Україна"
+  }
+]

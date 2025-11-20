@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Колекція музеїв - REST API</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏛️ Колекція музеїв</h1>
+            <p class="subtitle">Лабораторна робота 7 - Скальський Володимир</p>
+        </header>
+
+        <main>
+            <section class="form-section">
+                <h2 id="formTitle">Додати новий музей</h2>
+                <form id="museumForm" class="museum-form">
+                    <input type="hidden" id="museumId">
+                    <div class="form-group">
+                        <label for="name">Назва музею:</label>
+                        <input type="text" id="name" name="name" required placeholder="Наприклад: Louvre">
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Країна:</label>
+                        <input type="text" id="country" name="country" required placeholder="Наприклад: France">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Додати</button>
+                        <button type="button" class="btn btn-secondary" id="cancelBtn" style="display: none;">Скасувати</button>
+                    </div>
+                </form>
+                <div id="message" class="message"></div>
+            </section>
+
+            <section class="filter-section">
+                <h2>Фільтрація</h2>
+                <div class="filter-group">
+                    <label for="filterCountry">Пошук за країною:</label>
+                    <input type="text" id="filterCountry" placeholder="Введіть назву країни">
+                    <button type="button" class="btn btn-filter" onclick="filterMuseums()">Фільтрувати</button>
+                    <button type="button" class="btn btn-reset" onclick="resetFilter()">Скинути</button>
+                </div>
+            </section>
+
+            <section class="museums-section">
+                <h2>Список музеїв</h2>
+                <div id="museumsList" class="museums-list">
+                    <p class="loading">Завантаження...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
