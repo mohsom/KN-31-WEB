@@ -1,0 +1,19 @@
+{
+  "name": "lab4-http-server",
+  "version": "1.0.0",
+  "description": "Лабораторна робота 4 - HTTP сервер на Node.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "http",
+    "server",
+    "lab4"
+  ],
+  "author": "Скальський Володимир",
+  "license": "ISC"
+}
+
