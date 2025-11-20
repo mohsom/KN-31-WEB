@@ -1,0 +1,8 @@
+[2025-11-20T12:39:29.965Z] GET / - IP: ::1
+[2025-11-20T12:39:30.012Z] GET /style.css - IP: ::1
+[2025-11-20T12:39:30.013Z] GET /script.js - IP: ::1
+[2025-11-20T12:39:30.038Z] GET /api/expenses - IP: ::1
+[2025-11-20T12:39:40.459Z] POST /api/expenses - IP: ::1
+[2025-11-20T12:39:40.465Z] GET /api/expenses - IP: ::1
+[2025-11-20T12:39:52.153Z] POST /api/expenses - IP: ::1
+[2025-11-20T12:39:52.159Z] GET /api/expenses - IP: ::1

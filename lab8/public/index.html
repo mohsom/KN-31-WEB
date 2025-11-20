@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Трекер витрат - Лабораторна робота 8</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 Трекер витрат</h1>
+            <p class="subtitle">Лабораторна робота 8 - Скальський Володимир</p>
+        </header>
+
+        <main>
+            <section class="form-section">
+                <h2>Додати витрату</h2>
+                <form id="expenseForm" class="expense-form" method="POST" action="/api/expenses">
+                    <div class="form-group">
+                        <label for="description">Опис витрати:</label>
+                        <input 
+                            type="text" 
+                            id="description" 
+                            name="description" 
+                            required 
+                            placeholder="Наприклад: Продукти в супермаркеті"
+                            value="">
+                        <span class="error-message" id="description-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">Сума (грн):</label>
+                        <input 
+                            type="number" 
+                            id="amount" 
+                            name="amount" 
+                            step="0.01" 
+                            min="0.01" 
+                            required 
+                            placeholder="0.00"
+                            value="">
+                        <span class="error-message" id="amount-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Категорія:</label>
+                        <input 
+                            type="text" 
+                            id="category" 
+                            name="category" 
+                            required 
+                            placeholder="Наприклад: Продукти, Транспорт, Розваги"
+                            value="">
+                        <span class="error-message" id="category-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Дата:</label>
+                        <input 
+                            type="date" 
+                            id="date" 
+                            name="date" 
+                            required
+                            value="">
+                        <span class="error-message" id="date-error"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Додати витрату</button>
+                </form>
+                <div id="message" class="message"></div>
+            </section>
+
+            <section class="expenses-section">
+                <h2>Історія витрат</h2>
+                <div id="expensesList" class="expenses-list">
+                    <p class="loading">Завантаження...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

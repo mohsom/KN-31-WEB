@@ -1,0 +1,24 @@
+{
+  "name": "lab8-expense-tracker",
+  "version": "1.0.0",
+  "description": "Лабораторна робота 8 - Обробка HTML-форм з валідацією",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node app.js"
+  },
+  "keywords": [
+    "express",
+    "forms",
+    "validation",
+    "expense-tracker",
+    "lab8"
+  ],
+  "author": "Скальський Володимир",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1"
+  }
+}
+
